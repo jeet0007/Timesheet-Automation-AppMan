@@ -7,6 +7,8 @@ This project is for those who don't or forget to write there TimeSheet
 To install all the required libraries
 
 ```bash
+nvm install
+nvm use
 yarn
 ```
 
