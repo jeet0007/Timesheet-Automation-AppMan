@@ -15,6 +15,7 @@ yarn
 ## Usage
 
 I have an yarn dev configured it will just open an browser session ans ask you to login.
+You will need to configure the Chrome path yourself in the `index.js` file
 
 ```bash
 yarn dev
