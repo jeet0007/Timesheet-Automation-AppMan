@@ -3,31 +3,6 @@
     "date": "02/03/2023",
     "manhours": 1,
     "module": "Meeting",
-    "task": "Axa meeting + AppMan Standup"
+    "task": "AppMan Standup"
   },
-  {
-    "date": "02/03/2023",
-    "manhours": 1,
-    "module": "Meeting",
-    "task": "e-KYC solution design"
-  },
-  {
-    "date": "02/03/2023",
-    "manhours": 1,
-    "module": "Meeting",
-    "task": "Appman x Tropical Bloom : feedback from ekyc flow"
-  },
-  {
-    "date": "02/03/2023",
-    "manhours": 1,
-    "module": "Meeting",
-    "task": "Inbound DF2F & EKYC Sprint Planning"
-  },
-  {
-    "date": "02/03/2023",
-    "manhours": 1,
-    "module": "Meeting",
-    "task": "Desk check Bankruptcy check feature",
-    "crNo": "EKYC-1769"
-  }
 ]
