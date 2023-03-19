@@ -15,7 +15,7 @@ yarn
 I have an yarn dev configured it will just open an browser session ans ask you to login.
 
 ```bash
-yarn
+yarn dev
 ```
 
 ### Usage with arguments
