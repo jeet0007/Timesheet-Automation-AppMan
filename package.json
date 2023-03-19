@@ -1,0 +1,19 @@
+{
+  "name": "timesheet",
+  "version": "1.0.0",
+  "description": "Automate imput timesheet",
+  "main": "index.js",
+  "author": "jeet0007",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "command-line-args": "^5.2.1",
+    "dotenv": "^16.0.3",
+    "moment": "^2.29.4",
+    "puppeteer": "^19.7.5",
+    "puppeteer-extra": "^3.3.6"
+  }
+}
