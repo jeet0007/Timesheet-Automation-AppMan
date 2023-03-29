@@ -24,13 +24,13 @@ const options = commandLineArgs(optionDefinitions);
     headless: false,
     waitForInitialPage: true,
     args: [
-      "--user-data-dir=/Users/jeetsingh/Library/Application Support/Google/Chrome/Profile 1 ",
+      `--user-data-dir=/Users/${env.user}/Library/Application Support/Google/Chrome/Profile 1 `,
     ],
   });
   const page = await browser.newPage();
   const pages = await browser.pages();
   pages[0].close();
-  await page.goto(env.TimesheetUrl);
+  await page.goto(env.timesheetUrl);
   const didManualLogin = page.waitForFunction(() => {
     return window.location.href == "https://appmantimesheet.herokuapp.com/";
   });
