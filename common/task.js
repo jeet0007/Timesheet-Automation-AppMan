@@ -60,7 +60,17 @@ module.exports = {
             await page.click(AddTaskLocators.cardId, { clickCount: 3 })
             await page.keyboard.type(`${env.jiraUrl}/browse/${crNo}`);
         }
-        console.log("Successfully  added task")
         await page.keyboard.press("Enter");
+        await page.waitForTimeout(2000);
+        await page.goto(`${env.TimesheetUrl}/tasks?date=${date}`)
+
+        const tasks = await page.evaluate('Array.prototype.slice.call(document.getElementsByClassName("activity-task")).map(x => x.innerText)')
+        if (tasks && task.includes(task)) {
+            console.log("Successfully added Task")
+            const totalHours = await page.evaluate('document.getElementsByClassName("task-selected-date-total")[0].innerText')
+            console.log(totalHours)
+        } else {
+            console.log("Failed to add Task", task)
+        }
     },
 };

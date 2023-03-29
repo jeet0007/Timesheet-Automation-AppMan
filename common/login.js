@@ -21,9 +21,7 @@ module.exports = Login = async (page) => {
         delay: 5,
       });
       await page.keyboard.press("Enter");
-    } catch (error) {
-      console.error(error)
-    }
+    } catch (error) { }
   }
   return
 };
