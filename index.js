@@ -18,22 +18,30 @@ const commandLineArgs = require("command-line-args");
 const options = commandLineArgs(optionDefinitions);
 
 (async () => {
-  console.log(env);
-  console.log(options);
+  console.log('env:', env);
+  console.log('options:', options);
+
+  const userDir = __dirname.split('/').slice(0, 3).join('/');
+  console.log('userDir: ', userDir)
+
   const browser = await puppeteer.launch({
     headless: false,
     waitForInitialPage: true,
     args: [
-      `--user-data-dir=/Users/${env.user}/Library/Application Support/Google/Chrome/Profile 1 `,
+      `--user-data-dir=${userDir}/Library/Application Support/Google/Chrome/Profile 1 `,
     ],
   });
+
   const page = await browser.newPage();
   const pages = await browser.pages();
+
   pages[0].close();
+
   await page.goto(env.timesheetUrl);
   const didManualLogin = page.waitForFunction(() => {
     return window.location.href == "https://appmantimesheet.herokuapp.com/";
   });
+
   const login = Login(page);
   await Promise.race([didManualLogin, login]);
 
