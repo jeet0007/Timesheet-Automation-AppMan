@@ -3,7 +3,7 @@ const env = require("../config/env");
 module.exports = Login = async (page) => {
   const isLoggedIn = page.url() === "https://appmantimesheet.herokuapp.com/";
   if (!isLoggedIn) {
-    await page.goto(`${env.TimesheetUrl}/users/sign_in`, {
+    await page.goto(`${env.timesheetUrl}/users/sign_in`, {
       waitForInitialPage: true,
     });
     await page.waitForXPath("/html/body/div/div/a");
@@ -23,5 +23,4 @@ module.exports = Login = async (page) => {
       await page.keyboard.press("Enter");
     } catch (error) { }
   }
-  return
 };

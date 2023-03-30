@@ -24,7 +24,7 @@ module.exports = {
       throw new Error("Invalid date");
     }
 
-    await page.goto(`${env.TimesheetUrl}/tasks/new?date=${parsedData}`);
+    await page.goto(`${env.timesheetUrl}/tasks/new?date=${parsedData}`);
     await page.waitForTimeout(1000);
     if (manhours) {
       await page.focus(AddTaskLocators.hoursInput);
@@ -67,7 +67,7 @@ module.exports = {
     }
     await page.keyboard.press("Enter");
     await page.waitForTimeout(2000);
-    await page.goto(`${env.TimesheetUrl}/tasks?date=${date}`);
+    await page.goto(`${env.timesheetUrl}/tasks?date=${date}`);
 
     const tasks = await page.evaluate(
       'Array.prototype.slice.call(document.getElementsByClassName("activity-task")).map(x => x.innerText)'
