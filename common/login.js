@@ -21,6 +21,10 @@ module.exports = Login = async (page) => {
         delay: 5,
       });
       await page.keyboard.press("Enter");
+      await page.waitForFunction(
+        () => window.location.href == env.timesheetUrl
+      );
+      console.log("Login Success");
     } catch (error) { }
   }
 };

@@ -39,11 +39,7 @@ const options = commandLineArgs(optionDefinitions);
   pages[0].close();
 
   await page.goto(env.timesheetUrl);
-  const didManualLogin = page.waitForFunction(() => window.location.href == env.timesheetUrl);
-  const login = Login(page);
-
-  await Promise.race([didManualLogin, login]);
-
+  await Login(page);
   if (options && options.file) {
     const data = await fs.readFile(options.file);
     const tasks = JSON.parse(data);
