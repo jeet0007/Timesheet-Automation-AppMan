@@ -35,20 +35,37 @@ const optionDefinitions = [
 ];
 ```
 
-To run with a file the file structure is as following
+#### Usage with an input file
 
-```json
-[
-  {
-    "date": "02/03/2023",
-    "manhours": 1,
-    "module": "Not sure what is the value here",
-    "task": "Whatever task it was",
-    "subTask": "Your subtask",
-    "crNo": "Your jira card number"
-  }
-]
-```
+To run with an input file, use `-f $PATH_TO_INPUT_FILE` option.
+
+These are the supported file types + example structure:
+
+- `json`
+
+  ```json
+  [
+    {
+      "date": "02/03/2023",
+      "manhours": 1,
+      "module": "Not sure what is the value here",
+      "task": "Whatever task it was",
+      "subTask": "Your subtask",
+      "crNo": "Your jira card number"
+    }
+  ]
+  ```
+
+- `yaml`
+
+  ```yaml
+  - date: "02/03/2023"
+    manhours: 1
+    module: Not sure what is the value here
+    task: Whatever task it was
+    subTask: Your subtask
+    crNo: Your jira card number
+  ```
 
 ## Contributing
 

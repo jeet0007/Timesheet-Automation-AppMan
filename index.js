@@ -1,10 +1,10 @@
-const fs = require("fs/promises");
 const puppeteer = require("puppeteer");
 const commandLineArgs = require("command-line-args");
 
 const Login = require("./common/login");
-const { addNewTask } = require("./common/task");
 const env = require("./config/env");
+const { addNewTask } = require("./common/task");
+const { readFileData } = require("./common/input");
 
 const optionDefinitions = [
   { name: "task", alias: "t", type: String },
@@ -41,8 +41,7 @@ const options = commandLineArgs(optionDefinitions);
   await page.goto(env.timesheetUrl);
   await Login(page);
   if (options && options.file) {
-    const data = await fs.readFile(options.file);
-    const tasks = JSON.parse(data);
+    const tasks = readFileData(options.file, 'utf8');
     for (const config of tasks) {
       await addNewTask(page, config);
     }
