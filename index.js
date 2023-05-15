@@ -19,12 +19,7 @@ const optionDefinitions = [
 const options = commandLineArgs(optionDefinitions);
 
 (async () => {
-  console.log('env:', env);
-  console.log('options:', options);
-
-  const userDir = __dirname.split('/').slice(0, 3).join('/');
-  console.log('userDir: ', userDir)
-
+  const userDir = __dirname.split("/").slice(0, 3).join("/");
   const browser = await puppeteer.launch({
     headless: false,
     waitForInitialPage: true,
@@ -41,13 +36,12 @@ const options = commandLineArgs(optionDefinitions);
   await page.goto(env.timesheetUrl);
   await Login(page);
   if (options && options.file) {
-    const tasks = readFileData(options.file, 'utf8');
+    const tasks = readFileData(options.file, "utf8");
     for (const config of tasks) {
       await addNewTask(page, config);
     }
   } else {
     if (Object.keys(options).length > 0) await addNewTask(page, options);
   }
-
   await browser.close();
 })();

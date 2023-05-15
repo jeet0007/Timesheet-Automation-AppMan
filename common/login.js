@@ -17,14 +17,11 @@ module.exports = Login = async (page) => {
       await page.waitForSelector('#password input[type="password"]', {
         visible: true,
       });
-      await page.type('#password input[type="password"]', env.password, {
-        delay: 5,
-      });
-      await page.keyboard.press("Enter");
       await page.waitForFunction(
-        () => window.location.href == env.timesheetUrl
+        () => window.location.href === env.timesheetUrl
       );
-      console.log("Login Success");
-    } catch (error) { }
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
