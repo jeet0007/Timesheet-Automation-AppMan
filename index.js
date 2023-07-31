@@ -32,7 +32,6 @@ const options = commandLineArgs(optionDefinitions);
   const pages = await browser.pages();
 
   pages[0].close();
-
   await page.goto(env.timesheetUrl);
   await Login(page);
   if (options && options.file) {

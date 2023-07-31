@@ -10,16 +10,24 @@ module.exports = Login = async (page) => {
     await page.click("xpath//html/body/div/div/a");
     await page.waitForTimeout(3000);
     try {
+      if (env.email) {
       await page.waitForSelector("#identifierId");
       await page.type("#identifierId", env.email);
       await page.waitForTimeout(1000);
-      await page.keyboard.press("Enter");
+        await page.keyboard.press("Enter");
+      }
       await page.waitForSelector('#password input[type="password"]', {
         visible: true,
       });
+      if (env.password) {
+        await page.type('#password input[type="password"]', env.password, {
+          delay: 5,
+        });
+        await page.keyboard.press("Enter");
+      }
       await page.waitForFunction(
         () => window.location.href === env.timesheetUrl
-      );
+        , 10000);
     } catch (error) {
       console.error(error);
     }
