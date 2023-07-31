@@ -17,11 +17,19 @@ const instance = axios.create({
     withCredentials: true,
 });
 
-const getCsrfToken = async (date) => {
-    const response = await instance.get(`/tasks/new?date=${date}`);
-    const csrfToken = response.data.match(/<meta name="csrf-token" content="(.*)" \/>/)[1];
-    const userId = response.data.match(/<input type="hidden" value="(.*)" name="(.*)" id="task_user_id" \/>/)[1];
-    return { csrfToken, userId };
+const getDefaultValues = async (date) => {
+  const response = await instance.get(`/tasks/new?date=${date}`);
+  const csrfToken = response.data.match(
+    /<meta name="csrf-token" content="(.*)" \/>/
+  )[1];
+  const userId = response.data.match(
+    /<input type="hidden" value="(.*)" name="(.*)" id="task_user_id" \/>/
+  )[1];
+  const project = response.data.match(
+    /<option selected="selected" value="(.*)">(.*)<\/option>/
+  )[1];
+  console.log(project);
+  return { csrfToken, userId, project };
 };
 
 const createNewTask = async (config, cookies) => {
@@ -31,7 +39,11 @@ const createNewTask = async (config, cookies) => {
   const formData = new URLSearchParams();
   const { date, manhours, module, task, subTask, crNo, remark, project } =
     config || {};
-  const { csrfToken, userId } = await getCsrfToken(date);
+  const {
+    csrfToken,
+    userId,
+    project: defaultProject,
+  } = await getDefaultValues(date);
   console.log(config);
   formData.append("authenticity_token", csrfToken);
   formData.append("commit", "Create Task");
@@ -43,7 +55,7 @@ const createNewTask = async (config, cookies) => {
   formData.append("task[hours]", manhours);
   formData.append("task[module]", module || "");
   formData.append("task[name]", task || "");
-  formData.append("task[project_id]", project || "");
+  formData.append("task[project_id]", project || defaultProject || "");
   formData.append("task[remark]", remark || "");
   formData.append("task[requirement_id]", crNo);
   formData.append("task[sub_task]", subTask || "");
