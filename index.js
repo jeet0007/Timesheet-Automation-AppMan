@@ -5,6 +5,7 @@ const Login = require("./common/login");
 const env = require("./config/env");
 const { addNewTask } = require("./common/task");
 const { readFileData } = require("./common/input");
+const { createNewTask } = require("./services/timesheet");
 
 const optionDefinitions = [
   { name: "task", alias: "t", type: String },
@@ -36,11 +37,17 @@ const options = commandLineArgs(optionDefinitions);
   await Login(page);
   if (options && options.file) {
     const tasks = readFileData(options.file, "utf8");
+    const client = await page.target().createCDPSession();
+    const cookies = (await client.send('Network.getAllCookies')).cookies;
     for (const config of tasks) {
-      await addNewTask(page, config);
+      await createNewTask(config, cookies).catch((err) => {
+        console.warn(err)
+      });
     }
+  } else if (Object.keys(options).length > 0) {
+    await addNewTask(page, options);
   } else {
-    if (Object.keys(options).length > 0) await addNewTask(page, options);
+    console.log("Please provide input");
   }
   await browser.close();
 })();
