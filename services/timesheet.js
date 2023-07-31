@@ -1,20 +1,20 @@
-const axios = require('axios');
-const moment = require('moment');
+const axios = require("axios");
 const env = require("../config/env");
 
-
 const instance = axios.create({
-    baseURL: 'https://appmantimesheet.herokuapp.com',
-    headers: {
-        Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, image/avif, image/webp, image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Upgrade-Insecure-Requests': 1,
-        'sec-ch-ua-platform': "macOS",
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua': '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
-        'host': 'appmantimesheet.herokuapp.com',
-    },
-    withCredentials: true,
+  baseURL: "https://appmantimesheet.herokuapp.com",
+  headers: {
+    Accept:
+      "text/html, application/xhtml+xml, application/xml;q=0.9, image/avif, image/webp, image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Upgrade-Insecure-Requests": 1,
+    "sec-ch-ua-platform": "macOS",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua":
+      '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
+    host: "appmantimesheet.herokuapp.com",
+  },
+  withCredentials: true,
 });
 
 const getDefaultValues = async (date) => {
@@ -69,5 +69,5 @@ const createNewTask = async (config, cookies) => {
 };
 
 module.exports = {
-    createNewTask,
+  createNewTask,
 };
