@@ -8,7 +8,9 @@ module.exports = Login = async (page) => {
     });
     await page.waitForXPath("/html/body/div/div/a");
     await page.click("xpath//html/body/div/div/a");
-    await page.waitForTimeout(3000);
-    await page.waitForFunction(() => window.location.href === env.timesheetUrl, { timeout: 0, polling: 'mutation' });
+    await page.waitForFunction(
+      () => window.location.href === env.timesheetUrl,
+      { timeout: 30000, polling: "raf" }
+    );
   }
 };

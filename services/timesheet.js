@@ -60,12 +60,7 @@ const createNewTask = async (config, cookies) => {
   formData.append("task[requirement_id]", crNo);
   formData.append("task[sub_task]", subTask || "");
   formData.append("task[user_id]", userId || "");
-  const response = await instance.post("/tasks", formData).catch((err) => {
-    console.warn(err);
-  });
-  if (response?.status !== 200) {
-    throw new Error(`Failed to create task ${JSON.stringify(config)}`);
-  }
+  return instance.post("/tasks", formData);
 };
 
 module.exports = {
