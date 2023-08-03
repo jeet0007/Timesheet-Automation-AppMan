@@ -17,8 +17,25 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-const getDefaultValues = async (date) => {
-  const response = await instance.get(`/tasks/new?date=${date}`);
+const getDefaultValues = async (date, cookies) => {
+  // get _timesheet_session cookie
+  const timesheetSession = cookies.find(
+    (cookie) => cookie.name === "_timesheet_session"
+  );
+  const response = await instance
+    .get(`/tasks/new?date=${date}`, {
+      headers: {
+        Accept: "text/html, application/xhtml+xml",
+        host: "appmantimesheet.herokuapp.com",
+        Cookie: `_timesheet_session=${timesheetSession.value}`,
+      },
+    })
+    .catch((e) => {
+      console.log("Error while fetching default values", e?.response?.status);
+    });
+  if (!response) {
+    return {};
+  }
   const csrfToken = response.data.match(
     /<meta name="csrf-token" content="(.*)" \/>/
   )[1];
@@ -28,38 +45,39 @@ const getDefaultValues = async (date) => {
   const project = response.data.match(
     /<option selected="selected" value="(.*)">(.*)<\/option>/
   )[1];
-  console.log(project);
   return { csrfToken, userId, project };
 };
 
 const createNewTask = async (config, cookies) => {
-  instance.defaults.headers.common["Cookie"] = cookies
-    .map((cookie) => `${cookie.name}=${cookie.value}`)
-    .join("; ");
-  const formData = new URLSearchParams();
+  const timesheetSession = cookies.find(
+    (cookie) => cookie.name === "_timesheet_session"
+  );
+  instance.defaults.headers.Cookie = `_timesheet_session=${timesheetSession.value}`;
   const { date, manhours, module, task, subTask, crNo, remark, project } =
     config || {};
   const {
     csrfToken,
     userId,
     project: defaultProject,
-  } = await getDefaultValues(date);
-  console.log(config);
-  formData.append("authenticity_token", csrfToken);
-  formData.append("commit", "Create Task");
-  formData.append("task[card_id]", crNo ? `${env.jiraUrl}/browse/${crNo}` : "");
-  formData.append("task[charge_code]", "");
-  formData.append("task[chargeable]", 0);
-  formData.append("task[leave_type_id]", 1);
-  formData.append("task[date]", date);
-  formData.append("task[hours]", manhours);
-  formData.append("task[module]", module || "");
-  formData.append("task[name]", task || "");
-  formData.append("task[project_id]", project || defaultProject || "");
-  formData.append("task[remark]", remark || "");
-  formData.append("task[requirement_id]", crNo);
-  formData.append("task[sub_task]", subTask || "");
-  formData.append("task[user_id]", userId || "");
+  } = await getDefaultValues(date, cookies);
+  console.info(`Creating task for ${date}`);
+  const formData = new URLSearchParams([
+    ["authenticity_token", csrfToken],
+    ["commit", "Create Task"],
+    ["task[card_id]", crNo ? `${env.jiraUrl}/browse/${crNo}` : ""],
+    ["task[charge_code]", ""],
+    ["task[chargeable]", 0],
+    ["task[leave_type_id]", 1],
+    ["task[date]", date],
+    ["task[hours]", manhours],
+    ["task[module]", module || ""],
+    ["task[name]", task || ""],
+    ["task[project_id]", project || defaultProject || ""],
+    ["task[remark]", remark || ""],
+    ["task[requirement_id]", crNo],
+    ["task[sub_task]", subTask || ""],
+    ["task[user_id]", userId || ""],
+  ]);
   return instance.post("/tasks", formData);
 };
 
