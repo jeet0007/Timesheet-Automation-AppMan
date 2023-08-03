@@ -60,7 +60,6 @@ const createNewTask = async (config, cookies) => {
     userId,
     project: defaultProject,
   } = await getDefaultValues(date, cookies);
-  console.info(`Creating task for ${date}`);
   const formData = new URLSearchParams([
     ["authenticity_token", csrfToken],
     ["commit", "Create Task"],

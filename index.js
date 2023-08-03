@@ -39,7 +39,11 @@ const options = commandLineArgs(optionDefinitions);
     const tasks = readFileData(options.file, "utf8");
     const client = await page.target().createCDPSession();
     const cookies = (await client.send('Network.getAllCookies')).cookies;
-    const promises = tasks.map((config) => createNewTask(config, cookies));
+    const promises = tasks.map((config) =>
+      createNewTask(config, cookies)
+        .then(() => console.log(config?.task, "added successfully"))
+        .catch(() => console.log(config?.task, "failed to add"))
+    );
     await Promise.allSettled(promises);
   } else if (Object.keys(options).length > 0) {
     await addNewTask(page, options);
