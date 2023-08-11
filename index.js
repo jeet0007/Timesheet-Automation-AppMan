@@ -31,10 +31,15 @@ const options = commandLineArgs(optionDefinitions);
 
   const page = await browser.newPage();
   const pages = await browser.pages();
-
+  const session = await page.target().createCDPSession();
+  const { windowId } = await session.send("Browser.getWindowForTarget");
   pages[0].close();
   await page.goto(env.timesheetUrl);
   await Login(page);
+  await session.send("Browser.setWindowBounds", {
+    windowId,
+    bounds: { windowState: "minimized" },
+  });
   if (options && options.file) {
     const tasks = readFileData(options.file, "utf8");
     const client = await page.target().createCDPSession();
