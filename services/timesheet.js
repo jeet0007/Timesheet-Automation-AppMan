@@ -60,10 +60,16 @@ const createNewTask = async (config, cookies) => {
     userId,
     project: defaultProject,
   } = await getDefaultValues(date, cookies);
+  const getBoardUrl = (crNo) => {
+    if (crNo && !isNaN(Number(crNo))) {
+      return `${env.mondayUrl}/${crNo}`;
+    }
+    return `${env.jiraUrl}/browse/${crNo}`;
+  };
   const formData = new URLSearchParams([
     ["authenticity_token", csrfToken],
     ["commit", "Create Task"],
-    ["task[card_id]", crNo ? `${env.jiraUrl}/browse/${crNo}` : ""],
+    ["task[card_id]", crNo ? `${getBoardUrl(crNo)}` : ""],
     ["task[charge_code]", ""],
     ["task[chargeable]", 0],
     ["task[leave_type_id]", 1],
