@@ -11,7 +11,8 @@ module.exports = Login = async (page) => {
     await page.click("xpath//html/body/div/div/a");
 
     await page.waitForFunction(
-      "window.location.href == 'https://appmantimesheet.herokuapp.com/'"
+      "window.location.href == 'https://appmantimesheet.herokuapp.com/'",
+      { timeout: 0 }
     );
     console.log("Logged in");
   }
