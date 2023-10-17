@@ -30,6 +30,7 @@ const options = commandLineArgs(optionDefinitions);
   });
 
   const page = await browser.newPage();
+  page.setDefaultNavigationTimeout(0); 
   const pages = await browser.pages();
   const session = await page.target().createCDPSession();
   const { windowId } = await session.send("Browser.getWindowForTarget");
